@@ -2,9 +2,12 @@
 
 const wpi = require('wiring-pi');
 const clear = require('clear');
+const Milkcocoa = require("milkcocoa")
 
 wpi.wiringPiSPISetup(0, 1000000);
 
+let mk = new Milkcocoa("catignazmfr.mlkcca.com");
+let ds = mk.dataStore('temp');
 
 
 setInterval(() => {
@@ -16,8 +19,11 @@ setInterval(() => {
   let volts = (adc * 3.3) / 1024;
   volts = Math.round(volts * 10000) / 10000;
   let temp  = Math.round(volts * 100 * 10) / 10;
+  let timestamp = new Date();
   clear();
+  ds.push({temp, timestamp});
   console.log("adc: ", adc);
   console.log("vlots: ", volts);
   console.log("temp: ", temp);
-}, 1000);
+  console.log(`pushed at ${timestamp}`);
+}, 1000 * 60 * 15);
