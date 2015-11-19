@@ -19,11 +19,10 @@ setInterval(() => {
   let volts = (adc * 3.3) / 1024;
   volts = Math.round(volts * 10000) / 10000;
   let temp  = Math.round(volts * 100 * 10) / 10;
-  let timestamp = new Date();
   clear();
-  ds.push({temp, timestamp});
+  ds.push({temp});
   console.log("adc: ", adc);
   console.log("vlots: ", volts);
   console.log("temp: ", temp);
-  console.log(`pushed at ${timestamp}`);
+  console.log(`pushed at ${new Date()}`);
 }, 1000 * 60 * 15);
